@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profit Freeze Analyzer Pro | Terminal Mode</title>
+    <title>Profit Freeze Analyzer Pro | Режим Терминала</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -45,7 +45,7 @@
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 4px; /* Строгие углы */
+            border-radius: 4px;
             padding: 20px;
             display: flex;
             flex-direction: column;
@@ -72,7 +72,7 @@
         }
         h2:first-of-type { margin-top: 0; }
 
-        /* Поля ввода - строгие */
+        /* Поля ввода */
         .input-group { margin-bottom: 12px; }
         .input-group label {
             display: block;
@@ -97,7 +97,7 @@
             outline: none;
         }
 
-        /* KPI Карточки - "Тикеры" */
+        /* KPI Карточки */
         .kpi-row {
             display: flex;
             justify-content: space-between;
@@ -124,7 +124,7 @@
             flex-grow: 1;
             position: relative;
             min-height: 400px;
-            background: #131519; /* Чуть темнее для контраста */
+            background: #131519;
             border: 1px solid var(--border-color);
             border-radius: 4px;
             padding: 10px;
@@ -144,7 +144,7 @@
             text-transform: uppercase;
         }
 
-        /* AI Блок - "Консоль" */
+        /* AI Блок */
         .ai-advisor {
             margin-top: 20px;
             background: #131519;
@@ -162,7 +162,6 @@
             text-transform: uppercase;
         }
 
-        /* Адаптив */
         @media (max-width: 1200px) {
             .container { grid-template-columns: 1fr; height: auto; }
             .card { min-height: auto; }
@@ -175,26 +174,26 @@
     
     <!-- ЛЕВАЯ ПАНЕЛЬ: ВВОД -->
     <div class="card">
-        <h1>Параметры / Input</h1>
+        <h1>Параметры Сделки</h1>
         
-        <h2>LOGISTICS & PURCHASE</h2>
-        <div class="input-group"><label>Сумма закупки (RUB)</label><input type="number" id="purchaseCost" value="1000000" oninput="calculate()"></div>
-        <div class="input-group"><label>Объем (PLT)</label><input type="number" id="pallets" value="10" oninput="calculate()"></div>
-        <div class="input-group"><label>Отсрочка (Days)</label><input type="number" id="deferment" value="14" oninput="calculate()"></div>
+        <h2>ЗАКУПКИ И ЛОГИСТИКА</h2>
+        <div class="input-group"><label>Сумма закупки (руб.)</label><input type="number" id="purchaseCost" value="1000000" oninput="calculate()"></div>
+        <div class="input-group"><label>Объем партии (паллет)</label><input type="number" id="pallets" value="10" oninput="calculate()"></div>
+        <div class="input-group"><label>Отсрочка платежа (дней)</label><input type="number" id="deferment" value="14" oninput="calculate()"></div>
 
-        <h2>MARKET & SALES</h2>
+        <h2>ПРОДАЖИ И РЫНОК</h2>
         <div class="input-group"><label>Наценка (%)</label><input type="number" id="markupPercent" value="25" oninput="calculate()"></div>
-        <div class="input-group"><label>Скорость (PLT/Day)</label><input type="number" id="salesSpeed" value="0.3" step="0.1" oninput="calculate()"></div>
+        <div class="input-group"><label>Скорость продаж (паллет/день)</label><input type="number" id="salesSpeed" value="0.3" step="0.1" oninput="calculate()"></div>
 
-        <h2>OPEX & RATES</h2>
-        <div class="input-group"><label>Хранение (RUB/PLT/Day)</label><input type="number" id="storageCost" value="150" oninput="calculate()"></div>
-        <div class="input-group"><label>Стоимость денег (% Year)</label><input type="number" id="moneyCost" value="22" oninput="calculate()"></div>
+        <h2>РАСХОДЫ И КАПИТАЛ</h2>
+        <div class="input-group"><label>Хранение (руб/паллет/сутки)</label><input type="number" id="storageCost" value="150" oninput="calculate()"></div>
+        <div class="input-group"><label>Стоимость денег (% годовых)</label><input type="number" id="moneyCost" value="22" oninput="calculate()"></div>
     </div>
 
     <!-- ЦЕНТР: ГРАФИК -->
     <div class="card">
         <div class="chart-header">
-            <h1>PnL Simulation</h1>
+            <h1>Моделирование PnL</h1>
             <span class="badge">Live Data</span>
         </div>
         <div class="chart-container">
@@ -203,43 +202,43 @@
         
         <!-- AI БЛОК -->
         <div class="ai-advisor">
-            <div class="ai-title">> SYSTEM ANALYSIS:</div>
-            <div id="aiOutput">Calculating...</div>
+            <div class="ai-title">> АНАЛИЗ СИСТЕМЫ:</div>
+            <div id="aiOutput">Расчет данных...</div>
         </div>
     </div>
 
     <!-- ПРАВАЯ ПАНЕЛЬ: ВЕРДИКТ -->
     <div class="card">
-        <h1>Summary / Output</h1>
+        <h1>Сводка / Результаты</h1>
         
         <div class="kpi-row">
-            <span class="kpi-label">MAX PROFIT</span>
+            <span class="kpi-label">МАКС. ПРИБЫЛЬ</span>
             <span class="kpi-value val-neutral" id="maxProfit">0</span>
         </div>
         
         <div class="kpi-row">
-            <span class="kpi-label">NET PROFIT</span>
+            <span class="kpi-label">ЧИСТАЯ ПРИБЫЛЬ</span>
             <span class="kpi-value" id="realProfit">0</span>
         </div>
         
         <div class="kpi-row">
-            <span class="kpi-label">BREAK-EVEN (ZERO)</span>
+            <span class="kpi-label">ТОЧКА НОЛЯ (ДНЕЙ)</span>
             <span class="kpi-value val-red" id="zeroPoint">0</span>
         </div>
 
         <div class="kpi-row">
-            <span class="kpi-label">ROI (ANNUALIZED)</span>
+            <span class="kpi-label">ROI (ГОДОВЫХ)</span>
             <span class="kpi-value" id="roiYear">0%</span>
         </div>
 
         <div class="kpi-row" style="border-bottom: none;">
-            <span class="kpi-label">SALES CYCLE</span>
+            <span class="kpi-label">ЦИКЛ ПРОДАЖ</span>
             <span class="kpi-value val-neutral" id="sellDays">0</span>
         </div>
         
         <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border-color); font-size: 11px; color: var(--text-secondary); line-height: 1.4;">
-            STATUS: <span id="statusIndicator" style="color: var(--accent-green)">ACTIVE</span><br>
-            VERSION: 2.1.0 PRO
+            СТАТУС: <span id="statusIndicator" style="color: var(--accent-green)">АКТИВЕН</span><br>
+            ВЕРСИЯ: 2.1.0 RU
         </div>
     </div>
 
@@ -285,18 +284,17 @@
         const ROI = (Final_Profit / P_buy) * 100;
         const ROI_Year = (ROI / Days_to_sell) * 365;
 
-        // Форматирование цифр "как в терминале"
         const fmt = (num) => Math.round(num).toLocaleString('ru-RU');
 
         document.getElementById('maxProfit').innerText = fmt(Gross_Margin);
         document.getElementById('realProfit').innerText = fmt(Final_Profit);
         document.getElementById('realProfit').className = 'kpi-value ' + (Final_Profit > 0 ? 'val-green' : 'val-red');
         
-        document.getElementById('zeroPoint').innerText = (zeroDay || '>365') + ' d';
+        document.getElementById('zeroPoint').innerText = (zeroDay || '>365') + ' дн.';
         document.getElementById('roiYear').innerText = isFinite(ROI_Year) ? Math.round(ROI_Year) + '%' : '0%';
         document.getElementById('roiYear').className = 'kpi-value ' + (ROI_Year > 20 ? 'val-green' : 'val-red');
         
-        document.getElementById('sellDays').innerText = Math.round(Days_to_sell) + ' d';
+        document.getElementById('sellDays').innerText = Math.round(Days_to_sell) + ' дн.';
 
         updateChart(days, profits);
         generateAIAdvice(Final_Profit, ROI_Year, Days_to_sell, Deferment, zeroDay);
@@ -306,7 +304,6 @@
         const ctx = document.getElementById('profitChart').getContext('2d');
         if (chartInstance) chartInstance.destroy();
         
-        // Градиент для графика
         let gradient = ctx.createLinearGradient(0, 0, 0, 400);
         gradient.addColorStop(0, 'rgba(0, 230, 118, 0.2)');
         gradient.addColorStop(1, 'rgba(0, 230, 118, 0)');
@@ -316,9 +313,9 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Net Profit',
+                    label: 'Чистая Прибыль',
                     data: data,
-                    borderColor: '#00E676', // Зеленый неон
+                    borderColor: '#00E676',
                     backgroundColor: gradient,
                     borderWidth: 2,
                     fill: true,
@@ -331,7 +328,16 @@
                 maintainAspectRatio: false,
                 plugins: { 
                     legend: {display: false},
-                    annotation: { annotations: { line1: { type: 'line', yMin: 0, yMax: 0, borderColor: '#FF4444', borderWidth: 1, borderDash: [4, 4] } } }
+                    annotation: { annotations: { line1: { type: 'line', yMin: 0, yMax: 0, borderColor: '#FF4444', borderWidth: 1, borderDash: [4, 4] } } },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(context) {
+                                return context.parsed.y.toLocaleString('ru-RU') + ' ₽';
+                            }
+                        }
+                    }
                 },
                 scales: { 
                     x: { grid: {color: '#2D333B'}, ticks: {color: '#8B949E'} }, 
@@ -349,19 +355,19 @@
         const el = document.getElementById('aiOutput');
         let lines = [];
 
-        if (profit < 0) lines.push("[CRITICAL] DEAL IS UNPROFITABLE. IMMEDIATE ACTION REQUIRED.");
-        else if (roi < 20) lines.push("[WARNING] LOW ROI DETECTED. CONSIDER ALTERNATIVE INVESTMENT.");
-        else lines.push("[OK] ROI IS HEALTHY. PROCEED WITH CAUTION.");
+        if (profit < 0) lines.push("[КРИТИЧНО] СДЕЛКА УБЫТОЧНА. ТРЕБУЕТСЯ НЕМЕДЛЕННОЕ ВМЕШАТЕЛЬСТВО.");
+        else if (roi < 20) lines.push("[ВНИМАНИЕ] НИЗКИЙ ROI. ЭФФЕКТИВНОСТЬ НИЖЕ БАНКОВСКОГО ДЕПОЗИТА.");
+        else lines.push("[OK] ROI В НОРМЕ. ПОКАЗАТЕЛИ ПРИБЫЛЬНОСТИ СТАБИЛЬНЫ.");
 
         if (daysSell > deferment) {
             const gap = Math.round(daysSell - deferment);
-            lines.push(`[ALERT] CASH GAP DETECTED: ${gap} DAYS. LIQUIDITY RISK.`);
+            lines.push(`[ТРЕВОГА] КАССОВЫЙ РАЗРЫВ: ${gap} ДНЕЙ. РИСК ЛИКВИДНОСТИ.`);
         } else {
-            lines.push("[OK] CASH FLOW POSITIVE. SALES CYCLE WITHIN DEFERMENT LIMIT.");
+            lines.push("[OK] ДЕНЕЖНЫЙ ПОТОК ПОЛОЖИТЕЛЬНЫЙ. ПРОДАЖА РАНЬШЕ ОПЛАТЫ.");
         }
 
         if (zeroDay && zeroDay < daysSell * 1.2) {
-             lines.push(`[INFO] ZERO-PROFIT POINT AT DAY ${zeroDay}. MARGIN EROSION RISK HIGH.`);
+             lines.push(`[ИНФО] ТОЧКА БЕЗУБЫТОЧНОСТИ НА ${zeroDay} ДЕНЬ. РИСК СНИЖЕНИЯ МАРЖИ.`);
         }
 
         el.innerHTML = lines.join("<br>> ");
@@ -372,6 +378,7 @@
 
 </body>
 </html>
+
 
 
 
