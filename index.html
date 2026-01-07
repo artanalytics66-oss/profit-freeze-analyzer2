@@ -12,127 +12,73 @@
             --primary: #2563EB;
             --danger: #DC2626;
             --success: #10B981;
+            --warning: #F59E0B;
             --text-main: #1F2937;
             --text-sec: #6B7280;
+            --ai-bg: #F3E8FF;
+            --ai-text: #6B21A8;
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 20px;
-            color: var(--text-main);
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 350px 1fr 300px;
-            gap: 24px;
-            height: 90vh;
-        }
-
-        /* Карточки */
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-        }
-
-        h1 { font-size: 20px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background-color: var(--bg-color); margin: 0; padding: 20px; color: var(--text-main); }
+        .container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 350px 1fr 300px; gap: 24px; min-height: 90vh; }
+        .card { background: var(--card-bg); border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; }
+        
+        h1 { font-size: 20px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; margin-top: 0; }
         h2 { font-size: 16px; font-weight: 600; color: var(--text-sec); margin-bottom: 16px; margin-top: 24px; border-bottom: 1px solid #E5E7EB; padding-bottom: 8px;}
         h2:first-child { margin-top: 0; }
 
-        /* Поля ввода */
         .input-group { margin-bottom: 16px; }
         .input-group label { display: block; font-size: 13px; color: var(--text-sec); margin-bottom: 6px; }
-        .input-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #E5E7EB;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.2s;
-            box-sizing: border-box;
-        }
+        .input-group input { width: 100%; padding: 10px; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
         .input-group input:focus { border-color: var(--primary); outline: none; }
 
-        /* Дашборд справа */
-        .kpi-card {
-            background: #F9FAFB;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            text-align: center;
-            border-left: 4px solid var(--primary);
-        }
+        .kpi-card { background: #F9FAFB; border-radius: 12px; padding: 16px; margin-bottom: 16px; text-align: center; border-left: 4px solid var(--primary); }
         .kpi-card.danger { border-left-color: var(--danger); background: #FEF2F2; }
         .kpi-card.success { border-left-color: var(--success); background: #ECFDF5; }
+        .kpi-card.warning { border-left-color: var(--warning); background: #FFFBEB; }
         
         .kpi-value { font-size: 28px; font-weight: 800; display: block; margin: 8px 0; }
-        .kpi-label { font-size: 13px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.5px; }
+        .kpi-label { font-size: 11px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.5px; }
         .kpi-sub { font-size: 12px; color: var(--text-sec); }
 
-        /* График */
-        .chart-container { position: relative; height: 100%; min-height: 400px; display: flex; flex-direction: column; }
+        .chart-container { position: relative; flex-grow: 1; min-height: 400px; display: flex; flex-direction: column; }
         .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
         .badge-live { background: #DBEAFE; color: var(--primary); }
 
-        /* Адаптив */
-        @media (max-width: 1024px) {
-            .container { grid-template-columns: 1fr; height: auto; }
-        }
+        /* AI Блок */
+        .ai-advisor { margin-top: 20px; background: var(--ai-bg); border-radius: 12px; padding: 16px; border: 1px solid #D8B4FE; }
+        .ai-title { color: var(--ai-text); font-weight: 700; font-size: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .ai-content { font-size: 13px; line-height: 1.5; color: #4C1D95; }
+        .ai-status-bad { color: var(--danger); font-weight: bold; }
+        .ai-status-good { color: var(--success); font-weight: bold; }
+
+        @media (max-width: 1024px) { .container { grid-template-columns: 1fr; height: auto; } }
     </style>
 </head>
 <body>
 
 <div class="container">
     
-    <!-- 1. ПАНЕЛЬ ВВОДА ДАННЫХ -->
+    <!-- 1. ПАНЕЛЬ ВВОДА -->
     <div class="card">
         <h1>❄️ Параметры Сделки</h1>
-        
         <h2>📦 Партия и Закупка</h2>
-        <div class="input-group">
-            <label>Сумма закупки (партия), руб.</label>
-            <input type="number" id="purchaseCost" value="1000000" oninput="calculate()">
-        </div>
-        <div class="input-group">
-            <label>Объем партии (паллет)</label>
-            <input type="number" id="pallets" value="10" oninput="calculate()">
-        </div>
-        <div class="input-group">
-            <label>Отсрочка платежа поставщику (дней)</label>
-            <input type="number" id="deferment" value="14" oninput="calculate()">
-        </div>
+        <div class="input-group"><label>Сумма закупки, руб.</label><input type="number" id="purchaseCost" value="1000000" oninput="calculate()"></div>
+        <div class="input-group"><label>Объем партии (паллет)</label><input type="number" id="pallets" value="10" oninput="calculate()"></div>
+        <div class="input-group"><label>Отсрочка платежа (дней)</label><input type="number" id="deferment" value="14" oninput="calculate()"></div>
 
         <h2>💰 Продажи и Рынок</h2>
-        <div class="input-group">
-            <label>Планируемая наценка (%)</label>
-            <input type="number" id="markupPercent" value="25" oninput="calculate()">
-        </div>
-        <div class="input-group">
-            <label>Скорость продаж (паллет в день)</label>
-            <input type="number" id="salesSpeed" value="0.3" step="0.1" oninput="calculate()">
-        </div>
+        <div class="input-group"><label>Планируемая наценка (%)</label><input type="number" id="markupPercent" value="25" oninput="calculate()"></div>
+        <div class="input-group"><label>Скорость продаж (паллет/день)</label><input type="number" id="salesSpeed" value="0.3" step="0.1" oninput="calculate()"></div>
 
-        <h2>📉 Расходы содержания</h2>
-        <div class="input-group">
-            <label>Хранение (руб / паллет / сутки)</label>
-            <input type="number" id="storageCost" value="150" oninput="calculate()">
-        </div>
-        <div class="input-group">
-            <label>Стоимость денег (кредит/капитал, % год)</label>
-            <input type="number" id="moneyCost" value="22" oninput="calculate()">
-        </div>
+        <h2>📉 Расходы</h2>
+        <div class="input-group"><label>Хранение (руб/паллет/сут)</label><input type="number" id="storageCost" value="150" oninput="calculate()"></div>
+        <div class="input-group"><label>Стоимость денег (% год)</label><input type="number" id="moneyCost" value="22" oninput="calculate()"></div>
     </div>
 
-    <!-- 2. ЦЕНТРАЛЬНЫЙ ГРАФИК -->
-    <div class="card chart-container">
+    <!-- 2. ГРАФИК + AI -->
+    <div class="card">
         <div class="chart-header">
             <h1>Динамика "Таяния" Прибыли</h1>
             <span class="badge badge-live">Live Simulation</span>
@@ -140,42 +86,22 @@
         <div style="flex-grow: 1; position: relative;">
             <canvas id="profitChart"></canvas>
         </div>
-        <p style="font-size: 13px; color: #666; margin-top: 15px; text-align: center;">
-            График показывает, как ежедневные расходы на хранение и замороженные деньги "съедают" вашу начальную наценку.
-        </p>
+        
+        <!-- Новый блок AI Советника -->
+        <div class="ai-advisor">
+            <div class="ai-title">🧠 AI Финансовый Анализ</div>
+            <div class="ai-content" id="aiOutput">Анализирую данные...</div>
+        </div>
     </div>
 
-    <!-- 3. ИТОГОВАЯ АНАЛИТИКА -->
+    <!-- 3. ВЕРДИКТ -->
     <div class="card">
         <h1>🎯 Вердикт</h1>
-
-        <div class="kpi-card success">
-            <span class="kpi-label">Максимальная Прибыль</span>
-            <span class="kpi-value" id="maxProfit">0 ₽</span>
-            <span class="kpi-sub">Если продадим мгновенно</span>
-        </div>
-
-        <div class="kpi-card">
-            <span class="kpi-label">Реальная Прибыль</span>
-            <span class="kpi-value" id="realProfit">0 ₽</span>
-            <span class="kpi-sub">С учетом срока реализации</span>
-        </div>
-
-        <div class="kpi-card danger">
-            <span class="kpi-label">Точка "Смерти" (Ноль)</span>
-            <span class="kpi-value" id="zeroPoint">0 дн.</span>
-            <span class="kpi-sub">Через столько дней прибыль исчезнет</span>
-        </div>
-        
-        <div class="kpi-card">
-            <span class="kpi-label">Эфф. годовых (ROI)</span>
-            <span class="kpi-value" id="roiYear">0%</span>
-            <span class="kpi-sub">Рентабельность сделки</span>
-        </div>
-
-        <div style="margin-top: 20px; font-size: 12px; color: #888; line-height: 1.4;">
-            💡 <b>Совет:</b> Если "Точка смерти" меньше вашего реального цикла продаж — откажитесь от закупки или требуйте скидку.
-        </div>
+        <div class="kpi-card success"><span class="kpi-label">Макс. Прибыль</span><span class="kpi-value" id="maxProfit">0 ₽</span></div>
+        <div class="kpi-card"><span class="kpi-label">Реальная Прибыль</span><span class="kpi-value" id="realProfit">0 ₽</span></div>
+        <div class="kpi-card danger"><span class="kpi-label">Точка "Смерти"</span><span class="kpi-value" id="zeroPoint">0 дн.</span></div>
+        <div class="kpi-card"><span class="kpi-label">Эфф. годовых (ROI)</span><span class="kpi-value" id="roiYear">0%</span></div>
+        <div class="kpi-card warning"><span class="kpi-label">Срок реализации</span><span class="kpi-value" id="sellDays">0 дн.</span></div>
     </div>
 
 </div>
@@ -184,145 +110,124 @@
     let chartInstance = null;
 
     function calculate() {
-        // 1. Считываем данные
-        const P_buy = parseFloat(document.getElementById('purchaseCost').value); // Закупка
-        const Q_pallets = parseFloat(document.getElementById('pallets').value); // Паллет
-        const Deferment = parseFloat(document.getElementById('deferment').value); // Отсрочка
-        const Markup = parseFloat(document.getElementById('markupPercent').value) / 100; // Наценка
-        const Speed = parseFloat(document.getElementById('salesSpeed').value); // Скорость продаж
-        const Cost_storage = parseFloat(document.getElementById('storageCost').value); // Хранение
-        const Rate_money = parseFloat(document.getElementById('moneyCost').value) / 100 / 365; // Стоимость денег в день
+        const P_buy = parseFloat(document.getElementById('purchaseCost').value) || 0;
+        const Q_pallets = parseFloat(document.getElementById('pallets').value) || 1;
+        const Deferment = parseFloat(document.getElementById('deferment').value) || 0;
+        const Markup = parseFloat(document.getElementById('markupPercent').value) / 100;
+        const Speed = parseFloat(document.getElementById('salesSpeed').value) || 0.1;
+        const Cost_storage = parseFloat(document.getElementById('storageCost').value) || 0;
+        const Rate_money = parseFloat(document.getElementById('moneyCost').value) / 100 / 365;
 
-        // 2. Расчет базовых показателей
-        const P_sell = P_buy * (1 + Markup); // Сумма продажи
-        const Gross_Margin = P_sell - P_buy; // Грязная прибыль
-        const Days_to_sell = Q_pallets / Speed; // Дней на полную продажу
+        const Gross_Margin = P_buy * Markup;
+        const Days_to_sell = Q_pallets / Speed;
 
-        // 3. Моделирование по дням (массив данных для графика)
         const days = [];
         const profits = [];
-        const costs = [];
-        
-        let currentProfit = Gross_Margin;
-        let totalCost = 0;
         let zeroDay = null;
 
-        // Считаем на 365 дней вперед или до глубокого минуса
-        for (let d = 0; d <= Math.max(Days_to_sell * 1.5, 90); d++) {
-            // Расходы за день d
-            // Хранение: платим только за остаток товара
-            let stock_remains = Math.max(0, Q_pallets - (d * Speed));
-            let day_storage = stock_remains * Cost_storage; // Если продали всё, хранение 0
+        let currentProfit = Gross_Margin;
+        let totalCost = 0;
 
-            // Деньги: платим % на замороженную сумму (если кончилась отсрочка)
+        for (let d = 0; d <= Math.max(Days_to_sell * 1.5, 90); d++) {
+            let stock_remains = Math.max(0, Q_pallets - (d * Speed));
+            let day_storage = stock_remains * Cost_storage;
+            
+            // Если остаток долга > 0 (после отсрочки)
+            // Логика упрощена: считаем деньги "замороженными" в остатке товара
             let money_frozen = (stock_remains / Q_pallets) * P_buy; 
             let day_money = (d > Deferment) ? money_frozen * Rate_money : 0;
 
-            let day_total_loss = day_storage + day_money;
-            totalCost += day_total_loss;
+            totalCost += (day_storage + day_money);
             currentProfit = Gross_Margin - totalCost;
 
             days.push(d);
             profits.push(currentProfit);
-            
-            // Ловим точку пересечения нуля
-            if (currentProfit <= 0 && zeroDay === null) {
-                zeroDay = d;
-            }
+
+            if (currentProfit <= 0 && zeroDay === null) zeroDay = d;
         }
 
-        // 4. Расчет итогов на момент полной распродажи
-        // Индекс дня, когда все продадим (округляем)
         const sellDayIndex = Math.min(Math.floor(Days_to_sell), days.length - 1);
-        const Final_Profit = profits[sellDayIndex] || profits[profits.length-1];
-        const ROI = (Final_Profit / P_buy) * 100; 
-        const ROI_Year = (ROI / Days_to_sell) * 365; // Приведенная годовая доходность
+        const Final_Profit = profits[sellDayIndex] || -totalCost;
+        const ROI = (Final_Profit / P_buy) * 100;
+        const ROI_Year = (ROI / Days_to_sell) * 365;
 
-        // 5. Вывод цифр
+        // Обновляем цифры
         document.getElementById('maxProfit').innerText = Math.round(Gross_Margin).toLocaleString() + ' ₽';
         document.getElementById('realProfit').innerText = Math.round(Final_Profit).toLocaleString() + ' ₽';
         document.getElementById('zeroPoint').innerText = (zeroDay || '>365') + ' дн.';
         document.getElementById('roiYear').innerText = isFinite(ROI_Year) ? Math.round(ROI_Year) + '%' : '0%';
+        document.getElementById('sellDays').innerText = Math.round(Days_to_sell) + ' дн.';
 
-        // Красим реальную прибыль
-        const realProfitEl = document.getElementById('realProfit').parentElement;
-        if(Final_Profit < 0) {
-            realProfitEl.classList.remove('success');
-            realProfitEl.classList.add('danger');
-        } else {
-            realProfitEl.classList.remove('danger');
-            realProfitEl.classList.add('success');
-        }
+        // Цвета
+        const rpCard = document.getElementById('realProfit').parentElement;
+        rpCard.className = Final_Profit > 0 ? 'kpi-card success' : 'kpi-card danger';
 
-        // 6. Рисуем график
-        updateChart(days, profits, zeroDay, Days_to_sell);
+        updateChart(days, profits, zeroDay);
+        generateAIAdvice(Final_Profit, ROI_Year, Days_to_sell, Deferment, zeroDay);
     }
 
-    function updateChart(labels, data, zeroX, sellX) {
+    function updateChart(labels, data, zeroX) {
         const ctx = document.getElementById('profitChart').getContext('2d');
-
-        if (chartInstance) {
-            chartInstance.destroy();
-        }
-
+        if (chartInstance) chartInstance.destroy();
+        
         chartInstance = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Чистая прибыль (накопительным итогом)',
+                    label: 'Чистая прибыль',
                     data: data,
                     borderColor: '#2563EB',
                     backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                    borderWidth: 3,
+                    borderWidth: 2,
                     fill: true,
-                    pointRadius: 0,
-                    tension: 0.3
+                    pointRadius: 0
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    annotation: {
-                        annotations: {
-                            line1: {
-                                type: 'line',
-                                yMin: 0,
-                                yMax: 0,
-                                borderColor: 'rgb(255, 99, 132)',
-                                borderWidth: 2,
-                            }
-                        }
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false,
-                        callbacks: {
-                            label: function(context) {
-                                return context.parsed.y.toLocaleString() + ' ₽';
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: { 
-                        title: { display: true, text: 'Дни реализации' },
-                        grid: { display: false }
-                    },
-                    y: { 
-                        title: { display: true, text: 'Прибыль, руб' },
-                        grid: { color: '#f3f4f6' } 
-                    }
-                }
+                plugins: { legend: {display: false}, annotation: { annotations: { line1: { type: 'line', yMin: 0, yMax: 0, borderColor: '#DC2626', borderWidth: 2 } } } },
+                scales: { x: { grid: {display: false} }, y: { grid: {color: '#F3F4F6'} } }
             }
         });
     }
 
-    // Запуск при старте
+    function generateAIAdvice(profit, roi, daysSell, deferment, zeroDay) {
+        const el = document.getElementById('aiOutput');
+        let tips = [];
+        let status = "neutral";
+
+        // Логика "Искусственного Интеллекта"
+        if (profit < 0) {
+            tips.push("⛔ <b>Сделка убыточна!</b> Вы потеряете деньги. Откажитесь или требуйте скидку на закупку.");
+            status = "bad";
+        } else if (roi < 20) {
+            tips.push("⚠️ <b>Низкая эффективность.</b> ROI " + Math.round(roi) + "% годовых — это уровень банковского вклада. Риск не оправдан.");
+            status = "bad";
+        } else {
+            tips.push("✅ <b>Хорошая сделка.</b> Рентабельность капитала высокая.");
+            status = "good";
+        }
+
+        if (daysSell > deferment) {
+            const gap = Math.round(daysSell - deferment);
+            tips.push(`📉 <b>Кассовый разрыв:</b> Вам придется платить поставщику на ${gap} дней раньше, чем вы продадите товар. Ищите деньги.`);
+        } else {
+            tips.push("👍 <b>Финансы в безопасности:</b> Вы успеваете продать товар до оплаты поставщику.");
+        }
+
+        if (zeroDay && zeroDay < daysSell) {
+            tips.push(`🔥 <b>Критично:</b> Товар начнет приносить убытки уже на ${zeroDay} день, а продавать вы будете ${Math.round(daysSell)}. Ускорьте продажи!`);
+        }
+
+        el.innerHTML = tips.join("<br><br>");
+        el.className = "ai-content " + (status === "bad" ? "ai-status-bad" : "");
+    }
+
     window.onload = calculate;
 </script>
 
 </body>
 </html>
+
